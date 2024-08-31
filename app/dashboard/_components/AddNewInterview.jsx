@@ -17,43 +17,40 @@ import { useUser } from '@clerk/nextjs';
 import moment from 'moment/moment';
 import { v4 as uuidv4 } from 'uuid';
 
+
+
+
 function AddNewInterview() {
     const [openDialog, setOpenDialog] = useState(false);
     const [jobPosition, setJobPosition] = useState('');
     const [jobDescription, setJobDescription] = useState('');
     const [jobExp, setJobExp] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [jsonResp, setJsonResp] = useState('');
+    const [loading,setLoading] = useState(false);
+    const [jsonResp,setJsonResp] = useState();
 
-    const { user } = useUser();
+    const user = useUser();
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
+    const onSubmit =async(e) => {
         setLoading(true);
-
-        try {
-            const inputPrompt = `Job position: ${jobPosition}, Job Description: ${jobDescription}, Years of experience: ${jobExp}, based on this info give me ${process.env.NEXT_PUBLIC_QUESTION_COUNT} interview questions with answers in JSON format`;
-            const result = await chatSession.sendMessage(inputPrompt);
-            const cleanResult = result.response.text().replace('```json', '').replace('```', '');
-            const parsedResult = JSON.parse(cleanResult);
-            setJsonResp(parsedResult);
-
-            await db.insert(MockInterview).values({
-                jsonMockResp: parsedResult,
-                jobPosition: jobPosition,
-                jobDescription: jobDescription,
-                jobExperience: jobExp,
-                createdBy: user?.primaryEmailAddress?.emailAddress || '',
-                createdAt: moment().format("DD-MM-yyyy"),
-                mockId: uuidv4(),
-            }).returning('*');
-
-            setOpenDialog(false); // Close the dialog after successful submission
-        } catch (error) {
-            console.error("An error occurred while submitting the form:", error);
-        } finally {
-            setLoading(false);
-        }
+        e.preventDefault();
+        console.log(jobExp, jobDescription, jobPosition);
+        const inputPrompt = "Job position:"+jobPosition+", Job Description:"+jobDescription+", Years of experience: "+jobExp+", based on this info give me "+process.env.NEXT_PUBLIC_QUESTION_COUNT +" interview questions with answers in json format";
+        const result = await chatSession.sendMessage(inputPrompt);
+        const cleanResult = result.response.text().replace('```json',"").replace('```',"");
+        setJsonResp(cleanResult);
+        console.log(JSON.parse(cleanResult));
+        
+        // const dbResp = await db.insert(MockInterview).values({
+        //     jsonMockResp:jsonResp,
+        //     jobPosition:jobPosition,
+        //     jobDescription:jobDescription,
+        //     jobExperience:jobExp,
+        //     createdBy:user?.primaryEmailAddress?.emailAddress,
+        //     createdAt:moment().format("DD-MM-yyyy"),
+        //     mockId:uuidv4()
+        // }).returning
+       
+        setLoading(false);
     };
 
     return (
@@ -95,7 +92,7 @@ function AddNewInterview() {
                                 <Input
                                     placeholder="Ex. 2"
                                     type="number"
-                                    max="30"
+                                    max='30'
                                     required
                                     value={jobExp}
                                     onChange={(event) => setJobExp(event.target.value)}
@@ -107,8 +104,8 @@ function AddNewInterview() {
                                 Cancel
                             </Button>
                             <Button type="submit" disabled={loading}>
-                                {loading ? <LoaderCircle className='animate-spin' /> : "Start Interview"}
-                            </Button>
+                                {loading? <><LoaderCircle className='animate-spin'/></>:""}
+                                Start Interview</Button>
                         </div>
                     </form>
                 </DialogContent>
