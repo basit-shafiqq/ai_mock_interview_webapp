@@ -39,3 +39,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 1) Nextjs 
 2) clerk for auth
 3) hyperui for ui components
+4) logoipsum for logo
