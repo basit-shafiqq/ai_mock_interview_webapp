@@ -40,3 +40,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 2) clerk for auth
 3) hyperui for ui components
 4) logoipsum for logo
+5) drizzle orm for postgresql with neon database
+6) shadcn
