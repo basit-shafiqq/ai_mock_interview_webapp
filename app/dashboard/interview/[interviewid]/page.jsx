@@ -6,10 +6,14 @@ import { eq } from 'drizzle-orm';
 import { Lightbulb, WebcamIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 function Interview({ params }) {
     const [interviewData, setInterviewData] = useState(null);
     const [webCamEnable, setWebCamEnable] = useState(false);
+
+    const router = useRouter();
 
     useEffect(() => {
         getInterviewDetails();
@@ -86,9 +90,9 @@ function Interview({ params }) {
                 </div>
             </div>
 
-            <Button className="px-8 py-4 text-lg font-semibold rounded-full bg-green-500 text-white hover:bg-green-600 transition-all duration-200">
-                Start Your Interview
-            </Button>
+                <Button onClick={()=>router.push('/dashboard/interview/'+params.interviewid+'/start')} className="px-8 py-4 text-lg font-semibold rounded-full bg-green-500 text-white hover:bg-green-600 transition-all duration-200">
+                    Start Your Interview
+                </Button>
         </div>
     );
 }
