@@ -16,6 +16,7 @@ import { MockInterview } from '@/utils/schema';
 import { useUser } from '@clerk/nextjs';
 import moment from 'moment/moment';
 import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -25,31 +26,44 @@ function AddNewInterview() {
     const [jobPosition, setJobPosition] = useState('');
     const [jobDescription, setJobDescription] = useState('');
     const [jobExp, setJobExp] = useState('');
-    const [loading,setLoading] = useState(false);
-    const [jsonResp,setJsonResp] = useState();
+    const [loading, setLoading] = useState(false);
+    const [jsonResp, setJsonResp] = useState();
+    const router = useRouter();
 
     const user = useUser();
 
-    const onSubmit =async(e) => {
+    const onSubmit = async (e) => {
         setLoading(true);
         e.preventDefault();
         console.log(jobExp, jobDescription, jobPosition);
-        const inputPrompt = "Job position:"+jobPosition+", Job Description:"+jobDescription+", Years of experience: "+jobExp+", based on this info give me "+process.env.NEXT_PUBLIC_QUESTION_COUNT +" interview questions with answers in json format";
+        const inputPrompt = "Job position:" + jobPosition + ", Job Description:" + jobDescription + ", Years of experience: " + jobExp + ", based on this info give me " + process.env.NEXT_PUBLIC_QUESTION_COUNT + " interview questions with answers in json format";
         const result = await chatSession.sendMessage(inputPrompt);
-        const cleanResult = result.response.text().replace('```json',"").replace('```',"");
-        setJsonResp(cleanResult);
+        const cleanResult = result.response.text().replace('```json', "").replace('```', "");
+        setJsonResp(JSON.parse(cleanResult));
         console.log(JSON.parse(cleanResult));
-        
-        // const dbResp = await db.insert(MockInterview).values({
-        //     jsonMockResp:jsonResp,
-        //     jobPosition:jobPosition,
-        //     jobDescription:jobDescription,
-        //     jobExperience:jobExp,
-        //     createdBy:user?.primaryEmailAddress?.emailAddress,
-        //     createdAt:moment().format("DD-MM-yyyy"),
-        //     mockId:uuidv4()
-        // }).returning
-       
+        // console.log(JSON.parse(jsonResp));
+
+        if (cleanResult) {
+            const dbResp = await db.insert(MockInterview).values({
+                jsonMockResp: jsonResp,
+                jobPosition: jobPosition,
+                jobDescription: jobDescription,
+                jobExperience: jobExp,
+                createdBy: user.user.primaryEmailAddress.emailAddress,
+                createdAt: moment().format("DD-MM-yyyy"),
+                mockId: uuidv4()
+            }).returning({ mockId: MockInterview.mockId });
+
+            if(dbResp){
+                setOpenDialog(false);
+                router.push('/dashboard/interview/'+dbResp[0].mockId)
+            }
+        }
+        else{
+            alert("Error generating mock interview questions");
+        }
+
+
         setLoading(false);
     };
 
@@ -104,7 +118,7 @@ function AddNewInterview() {
                                 Cancel
                             </Button>
                             <Button type="submit" disabled={loading}>
-                                {loading? <><LoaderCircle className='animate-spin'/></>:""}
+                                {loading ? <><LoaderCircle className='animate-spin' /></> : ""}
                                 Start Interview</Button>
                         </div>
                     </form>

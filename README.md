@@ -42,3 +42,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 4) logoipsum for logo
 5) drizzle orm for postgresql with neon database
 6) shadcn
+7) react-webcam
