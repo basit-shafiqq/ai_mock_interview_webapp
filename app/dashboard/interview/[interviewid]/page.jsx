@@ -89,7 +89,7 @@ function Interview({ params }) {
                 </div>
             </div>
 
-                <Button onClick={()=>router.push('/dashboard/interview/'+params.interviewid+'/start')} className="px-8 py-4 text-lg font-semibold rounded-full bg-green-500 text-white hover:bg-green-600 transition-all duration-200">
+                <Button onClick={()=>router.push("/dashboard/interview/"+params.interviewid+"/start")} className="px-8 py-4 text-lg font-semibold rounded-full bg-green-500 text-white hover:bg-green-600 transition-all duration-200">
                     Start Your Interview
                 </Button>
         </div>
