@@ -29,7 +29,7 @@ function Interview({ params }) {
 
     return (
         <div className="flex flex-col items-center my-10 space-y-10">
-            <h2 className="text-4xl font-extrabold text-primary">Let's Get Started</h2>
+            <h2 className="text-4xl font-extrabold text-primary">Lets Get Started</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 w-full max-w-7xl">
               
