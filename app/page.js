@@ -1,7 +1,11 @@
+'use client'
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { Router } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
-function LandingPage() {
+function Home() {
+  const router = useRouter();
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center bg-cover bg-center bg-fixed"
@@ -27,12 +31,13 @@ function LandingPage() {
             InterVuAi offers tailored mock interviews using the latest AI technology, helping you sharpen your interview skills and boost your confidence.
           </p>
           <div className="flex justify-center">
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
+            <Button onClick={()=>router.push('/dashboard')} className="bg-black hover:bg-slate-800 text-white py-3 px-6 rounded-lg text-lg shadow-lg transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl">
               Get Started
             </Button>
           </div>
         </div>
       </main>
+      
 
       <footer className="w-full py-4">
         <div className="container mx-auto text-center">
@@ -45,4 +50,4 @@ function LandingPage() {
   );
 }
 
-export default LandingPage;
+export default Home;
