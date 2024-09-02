@@ -7,11 +7,11 @@ function QuestionSection({ interviewQuestions, activeQuestion }) {
     const textToSpeech = (text) => {
         if ('speechSynthesis' in window) {
             if (isSpeaking) {
-                window.speechSynthesis.cancel(); // Stop speaking
+                window.speechSynthesis.cancel(); 
                 setIsSpeaking(false);
             } else {
                 const speech = new SpeechSynthesisUtterance(text);
-                speech.onend = () => setIsSpeaking(false); // Reset state when done
+                speech.onend = () => setIsSpeaking(false); 
                 window.speechSynthesis.speak(speech);
                 setIsSpeaking(true);
             }

@@ -6,7 +6,6 @@ import { eq } from 'drizzle-orm';
 import { Lightbulb, WebcamIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import Webcam from 'react-webcam';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 function Interview({ params }) {
@@ -33,9 +32,9 @@ function Interview({ params }) {
             <h2 className="text-4xl font-extrabold text-primary">Let's Get Started</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 w-full max-w-7xl">
-                {/* Left Column: Job Info & Information Section */}
+              
                 <div className="col-span-2 flex flex-col space-y-6">
-                    {/* Job Info Card */}
+                  
                     <div className="bg-white p-10 rounded-lg shadow-lg border border-gray-200">
                         {interviewData ? (
                             <>
@@ -54,7 +53,7 @@ function Interview({ params }) {
                         )}
                     </div>
 
-                    {/* Information Section */}
+                  
                     <div className="bg-yellow-100 p-8 rounded-lg shadow-lg border border-yellow-200 flex items-start space-x-4">
                         <Lightbulb className="h-8 w-8 text-yellow-600" />
                         <div>
@@ -66,7 +65,7 @@ function Interview({ params }) {
                     </div>
                 </div>
 
-                {/* Right Column: Webcam Section */}
+
                 <div className="flex justify-center items-center bg-white p-10 rounded-lg shadow-lg border border-gray-200">
                     {webCamEnable ? (
                         <Webcam
