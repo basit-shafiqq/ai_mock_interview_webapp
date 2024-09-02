@@ -27,7 +27,7 @@ function Feedback({ params }) {
 
   useEffect(() => {
     getFeedBack();
-  }, []);
+  }, [params.interviewid]);
 
   return (
     <div className='p-10 bg-gray-50 rounded-lg shadow-md'>

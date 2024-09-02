@@ -16,7 +16,7 @@ function Interview({ params }) {
 
     useEffect(() => {
         getInterviewDetails();
-    }, []);
+    }, [params.interviewid]);
 
     const getInterviewDetails = async () => {
         const result = await db
